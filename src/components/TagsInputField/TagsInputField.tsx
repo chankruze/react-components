@@ -6,6 +6,7 @@ Copyright (c) geekofia 2022 and beyond
 */
 
 import { BaseSyntheticEvent, useState } from "react";
+import ActionButton from "./ActionButton";
 import Tag from "./Tag";
 
 const TagsInputField = () => {
@@ -29,13 +30,27 @@ const TagsInputField = () => {
     setTags(tags.filter((t) => t !== tag));
   };
 
+  // copy tags
+  const copyTags = () => {
+    navigator.clipboard.writeText(tags.join(", "));
+  };
+
+  // clear tags
+  const clearTags = () => {
+    setTags([]);
+  };
+
   return (
     <div className="p-4 border-2 rounded border-fuchsia-500 dark:bg-slate-800">
-      <label htmlFor="tags" className="dark:text-gray-300 capitalize">
-        Add tags
-      </label>
+      <div className="flex items-center justify-between flex-wrap dark:text-gray-300">
+        <p className="px-2 capitalize">Add tags</p>
+        <div className="flex items-center justify-end flex-wrap gap-2">
+          <ActionButton title="Copy" onClick={copyTags} />
+          <ActionButton title="Clear" onClick={clearTags} />
+        </div>
+      </div>
       {/* just like formik field array */}
-      <ul id="tags" className="mt-2 flex flex-wrap gap-1 items-center">
+      <ul className="mt-2 flex flex-wrap gap-1 items-center">
         {tags.map((tag, index) => (
           <Tag key={index} tag={tag} removeTag={removeTag} />
         ))}
