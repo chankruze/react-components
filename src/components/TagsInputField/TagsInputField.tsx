@@ -9,7 +9,11 @@ import { BaseSyntheticEvent, useState } from "react";
 import ActionButton from "./ActionButton";
 import Tag from "./Tag";
 
-const TagsInputField = () => {
+interface TagsInputFieldProps {
+  delimiter?: string;
+}
+
+const TagsInputField: React.FC<TagsInputFieldProps> = ({ delimiter = "," }) => {
   const [tags, setTags] = useState<Array<string>>([]);
   const [currentTag, setCurrentTag] = useState<string>("");
 
@@ -19,8 +23,10 @@ const TagsInputField = () => {
     e.preventDefault();
     // check if input is empty
     if (currentTag.trim() === "") return;
+    // split tags by comma
+    const tagsArray = currentTag.split(delimiter).map((tag) => tag.trim());
     // add new tag
-    setTags([...tags, currentTag]);
+    setTags([...tags, ...tagsArray]);
     // reset input
     setCurrentTag("");
   };
@@ -32,7 +38,7 @@ const TagsInputField = () => {
 
   // copy tags
   const copyTags = () => {
-    navigator.clipboard.writeText(tags.join(", "));
+    navigator.clipboard.writeText(tags.join(`${delimiter} `));
   };
 
   // clear tags
