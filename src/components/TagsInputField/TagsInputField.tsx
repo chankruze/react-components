@@ -24,7 +24,9 @@ const TagsInputField: React.FC<TagsInputFieldProps> = ({ delimiter = "," }) => {
     // check if input is empty
     if (currentTag.trim() === "") return;
     // split tags by comma
-    const tagsArray = currentTag.split(delimiter).map((tag) => tag.trim());
+    const tagsArray = currentTag
+      .split(delimiter)
+      .filter((tag) => tag.trim() !== "");
     // add new tag
     setTags([...tags, ...tagsArray]);
     // reset input
